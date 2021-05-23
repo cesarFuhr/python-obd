@@ -41,6 +41,7 @@ def dtcHandler(r: obd.OBDResponse):
 
 def pidHandler(r: obd.OBDResponse):
     if not hasattr(r.value, 'magnitude'):
+        obdReader.unwatch(r.command)
         return
     http_client.sendPIDs([PIDFormatter(r)])
 
@@ -64,6 +65,7 @@ def newCleanup(r):
 
 
 count = 0
+obdReader = 0
 try:
     obdReader = setupOBDReader()
 

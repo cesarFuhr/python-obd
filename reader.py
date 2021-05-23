@@ -50,6 +50,10 @@ class Reader:
         for command in supported:
             self.conn.watch(command,  callback=pid_handler)
 
+    def unwatch(self, cmd):
+        self.conn.unwatch(cmd)
+        return
+
     def unwatchDTC(self, r):
         self.dtc_handler(r)
         self.conn.unwatch(obd.commands.GET_DTC)
