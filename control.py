@@ -1,6 +1,8 @@
 import time
 import datetime
 
+from obd.decoders import dtc
+
 import http_client
 import reader
 import obd
@@ -51,7 +53,7 @@ def setupOBDReader():
     r.connect()
     availablePIDs = r.checkAvailable()
 
-    r.watch(availablePIDs, pidHandler)
+    r.watch(availablePIDs, pidHandler, dtcHandler)
 
     return r
 
