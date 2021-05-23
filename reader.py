@@ -43,8 +43,8 @@ class Reader:
 
     def watch(self, supported, pid_handler, dtc_handler):
         # First Get DTC
-        self.dtc_handler = dtc_handler
-        self.conn.watch(obd.commands.GET_DTC, callback=self.unwatchDTC)
+        # self.dtc_handler = dtc_handler
+        # self.conn.watch(obd.commands.GET_DTC, callback=self.unwatchDTC)
 
         # Then PIDs
         for command in supported:

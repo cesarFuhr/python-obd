@@ -49,13 +49,16 @@ def pidHandler(r: obd.OBDResponse):
 
 
 def setupOBDReader():
-    r = reader.Reader()
-    r.connect()
-    availablePIDs = r.checkAvailable()
+    obdReader = reader.Reader()
+    obdReader.connect()
+    availablePIDs = obdReader.checkAvailable()
 
-    r.watch(availablePIDs, pidHandler, dtcHandler)
+    if not obdReader.conn.is_connected():
+        exit(1)
 
-    return r
+    obdReader.watch(availablePIDs, pidHandler, dtcHandler)
+
+    return obdReader
 
 
 def newCleanup(r):
@@ -67,12 +70,9 @@ def newCleanup(r):
 
 
 count = 0
-obdReader = 0
+obdReader = reader.Reader()
 try:
     obdReader = setupOBDReader()
-
-    if not obdReader.conn.is_connected():
-        exit(1)
 
     cleanup = newCleanup(obdReader)
 
@@ -82,5 +82,6 @@ try:
         print(count)
         count += 1
 finally:
-    cleanup()
+    if obdReader.conn.is_connected():
+        cleanup()
     print("Goodbye...")
