@@ -71,6 +71,9 @@ obdReader = 0
 try:
     obdReader = setupOBDReader()
 
+    if not obdReader.conn.is_connected:
+        exit(1)
+
     cleanup = newCleanup(obdReader)
 
     obdReader.start()
